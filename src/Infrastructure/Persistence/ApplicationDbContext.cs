@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 
 namespace CleanArchitecture.Infrastructure.Persistence;
 
-public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     private readonly IMediator _mediator;
     private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
@@ -21,7 +21,7 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
         IOptions<OperationalStoreOptions> operationalStoreOptions,
         IMediator mediator,
         AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor) 
-        : base(options, operationalStoreOptions)
+        : base(options)
     {
         _mediator = mediator;
         _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
@@ -30,6 +30,8 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
     public DbSet<TodoList> TodoLists => Set<TodoList>();
 
     public DbSet<TodoItem> TodoItems => Set<TodoItem>();
+
+    public DbSet<ShoppingSession> ShoppingSessions => Set<ShoppingSession>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

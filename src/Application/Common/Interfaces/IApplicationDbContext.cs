@@ -9,5 +9,7 @@ public interface IApplicationDbContext
 
     DbSet<TodoItem> TodoItems { get; }
 
+    DbSet<ShoppingSession> ShoppingSessions { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
